@@ -1,0 +1,33 @@
+{% extends 'shortener/index.html' %}
+
+{% block content %}
+
+<div class="container">
+    <form action="" method="post">
+        <div class="form-group">
+            <div class="container col-md-4 col-md-offset-4">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                    {% csrf_token %}
+                        {% for link in list %}
+                        <div class="panel panel-danger">
+                            <div class="panel-body">
+                                <p style="margin-left: 230px"><a style="color: red" href="shortener/{{ link.new_link }}/delete">удалить</a></p>
+                                <br>
+                                <p>old_link:<a href="{{ link.old_link }}">{{ link.old_link }}</a></p>
+                                <p>new_link:<a href="shortener/{{ link.new_link }}">shortener/{{ link.new_link }}</a></p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <p>
+                            <a href="/shortener/cut">создать короткую ссылку</a>
+                            <a style="margin-left: 100px" class="active" href="/shortener/logout">выйти</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
