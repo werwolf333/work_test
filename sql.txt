@@ -1,0 +1,22 @@
+запрос к первой задаче:
+
+    select t1.client_number, t1.`побед`, t2.`поражений` from
+    (SELECT client_number , COUNT(outcome) as `побед`
+    from bid LEFT JOIN event_value
+    ON bid.play_id=event_value.play_id and event_value.value=bid.coefficient
+    WHERE outcome='win'
+    GROUP BY client_number) as t1
+    INNER JOIN
+    (SELECT bid.client_number, COUNT(outcome) as `поражений`
+    from bid LEFT JOIN event_value
+    ON bid.play_id=event_value.play_id and event_value.value=bid.coefficient
+    WHERE outcome='lose'
+    GROUP BY client_number) as t2
+    ON t1.client_number = t2.client_number
+
+запрос к второй задаче:
+
+    SELECT t1.game, COUNT(*) as game_count
+    FROM (SELECT concat(least(home_team, away_team) , '-', greatest(home_team, away_team)) as game
+    FROM event_entity) as t1
+    GROUP BY t1.game ORDER BY game_count ASC
